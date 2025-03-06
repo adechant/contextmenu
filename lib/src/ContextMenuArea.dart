@@ -1,26 +1,26 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 
-import 'ContextMenu.dart';
+import 'package:contextmenu/src/ContextMenu.dart';
 
 /// Show a [ContextMenu] on the given [BuildContext]. For other parameters, see [ContextMenu].
-void showContextMenu(
+Future<T?> showContextMenu<T>(
   Offset offset,
   BuildContext context,
-  List<Widget> children,
+  List<Widget> Function(BuildContext) builder,
   verticalPadding,
   width,
 ) {
-  showModal(
+  return showModal(
     context: context,
     configuration: FadeScaleTransitionConfiguration(
       barrierColor: Colors.transparent,
     ),
     builder: (context) => ContextMenu(
       position: offset,
-      children: children,
       verticalPadding: verticalPadding,
       width: width,
+      children: builder.call(context),
     ),
   );
 }
@@ -34,10 +34,9 @@ class ContextMenuArea extends StatelessWidget {
   /// The widget displayed inside the [ContextMenuArea]
   final Widget child;
 
-  /// A [List] of items to be displayed in an opened [ContextMenu]
+  /// A [Builder] of items to be displayed in an opened [ContextMenu]
   ///
-  /// Usually, a [ListTile] might be the way to go.
-  final List<Widget> items;
+  final List<Widget> Function(BuildContext) builder;
 
   /// The padding value at the top an bottom between the edge of the [ContextMenu] and the first / last item
   final double verticalPadding;
@@ -48,7 +47,7 @@ class ContextMenuArea extends StatelessWidget {
   const ContextMenuArea({
     Key? key,
     required this.child,
-    required this.items,
+    required this.builder,
     this.verticalPadding = 8,
     this.width = 320,
   }) : super(key: key);
@@ -59,14 +58,14 @@ class ContextMenuArea extends StatelessWidget {
       onSecondaryTapDown: (details) => showContextMenu(
         details.globalPosition,
         context,
-        items,
+        builder,
         verticalPadding,
         width,
       ),
       onLongPressStart: (details) => showContextMenu(
         details.globalPosition,
         context,
-        items,
+        builder,
         verticalPadding,
         width,
       ),

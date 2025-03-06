@@ -38,31 +38,7 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Padding(
         padding: const EdgeInsets.all(32.0),
         child: ContextMenuArea(
-          items: [
-            ListTile(
-              title: Text('Option 1'),
-              onTap: () {
-                Navigator.of(context).pop();
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text('Whatever'),
-                  ),
-                );
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.model_training),
-              title: Text('Option 2'),
-              onTap: () {
-                Navigator.of(context).pop();
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text('Foo!'),
-                  ),
-                );
-              },
-            )
-          ],
+          builder: _buildMenu,
           child: Card(
             color: Theme.of(context).primaryColor,
             child: Center(
@@ -77,5 +53,33 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
     );
+  }
+
+  List<Widget> _buildMenu(BuildContext context) {
+    return [
+      ListTile(
+        title: Text('Option 1'),
+        onTap: () {
+          Navigator.of(context).pop();
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Whatever'),
+            ),
+          );
+        },
+      ),
+      ListTile(
+        leading: Icon(Icons.model_training),
+        title: Text('Option 2'),
+        onTap: () {
+          Navigator.of(context).pop();
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Foo!'),
+            ),
+          );
+        },
+      )
+    ];
   }
 }
