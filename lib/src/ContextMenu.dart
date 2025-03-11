@@ -35,21 +35,22 @@ class ContextMenu extends StatefulWidget {
 }
 
 class _ContextMenuState extends State<ContextMenu> {
-  Map<ValueKey, double> _heights = Map();
+  final Map<ValueKey, double> _heights = {};
 
   @override
   Widget build(BuildContext context) {
     double height = 2 * widget.verticalPadding;
 
-    _heights.values.forEach((element) {
+    for (var element in _heights.values) {
       height += element;
-    });
+    }
 
     final heightsNotAvailable = widget.children.length - _heights.length;
     height += heightsNotAvailable * _kMinTileHeight;
 
-    if (height > MediaQuery.of(context).size.height)
+    if (height > MediaQuery.of(context).size.height) {
       height = MediaQuery.of(context).size.height;
+    }
 
     double paddingLeft = widget.position.dx;
     double paddingTop = widget.position.dy;
@@ -115,7 +116,7 @@ class _GrowingWidget extends StatefulWidget {
   final ValueChanged<double> onHeightChange;
 
   const _GrowingWidget(
-      {Key? key, required this.child, required this.onHeightChange})
+      {Key? key, required this.child, required this.onHeightChange,})
       : super(key: key);
 
   @override
@@ -123,13 +124,13 @@ class _GrowingWidget extends StatefulWidget {
 }
 
 class __GrowingWidgetState extends State<_GrowingWidget> with AfterLayoutMixin {
-  GlobalKey _key = GlobalKey();
+  final GlobalKey _key = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: widget.child,
       key: _key,
+      child: widget.child,
     );
   }
 
